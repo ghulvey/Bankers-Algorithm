@@ -3,6 +3,8 @@
 
 **Author:** Gavin Hulvey
 
+[![Compile and Test with Make](https://github.com/ghulvey/Bankers-Algorithm/actions/workflows/c-cpp.yml/badge.svg)](https://github.com/ghulvey/Bankers-Algorithm/actions/workflows/c-cpp.yml)
+
 # Run Instructions
 
 This project can be downloaded using git. The program can be loaded via make or clang.
