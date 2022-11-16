@@ -30,7 +30,10 @@ int main(int argc, char *argv[]) {
     // Saves the index for the order of process
     // [0]=1 - Process 0 should be processed second
     // [1]=0 - Process 1 should be processed first
-    int done[processes];
+    int ans[processes];
+    
+    // True if process is done
+    bool done[processes];
 
     // Load the allocation and maximum information from JSON file into a 2D array
     for(int i = 0; i < processes; ++i){
@@ -42,47 +45,47 @@ int main(int argc, char *argv[]) {
             // need = max - allocation
             need[i][j] = max[i][j] - allocation[i][j];
         }
-        done[i] = -1;
+        done[i] = false;
     }
 
-    // Read in the avalible resources from the JSON file
-    int avalible[resources];
+    // Read in the available resources from the JSON file
+    int available[resources];
     for(int i = 0; i < resources; ++i) {
-        avalible[i] = data["resources"][i]["avalible"];
+        available[i] = data["resources"][i]["available"];
     }
 
     int sequencePos = 0;
-    int j = 0;
-    bool onePass = true;
-    while(j < processes) {
-        if(done[j] == -1){
-            bool valid = true;
 
-            // Determine if need is not greater than avalibility
-            for(int i = 0; i < resources; ++i){
-                if(need[j][i] > avalible[i]) {
-                    valid = false;
-                    break;
-                }
-            }
+    // The max number of runs for the algorithm is the same as the number of processes
+    for(int maxPass = 0; maxPass < processes; ++maxPass) {
+        // Loop for each process
+        for(int j = 0;j < processes; ++j) {
+            if(done[j] == false){
+                bool valid = true;
 
-            // If need is not greater than avalibility
-            if(valid) {
-                // Update the processes index in the done array
-                done[j] = sequencePos;
-                ++sequencePos;
-
-                // Update the number of resources avalible
-                // avalible = avalible + allocation
+                // Determine if need is not greater than work
                 for(int i = 0; i < resources; ++i){
-                    avalible[i] += allocation[j][i];
+                    if(need[j][i] > available[i]) {
+                        valid = false;
+                        break;
+                    }
+                }
+
+                // If need is not greater than work
+                if(valid) {
+                    // Update the processes index in the done array
+                    ans[sequencePos] = j;
+                    ++sequencePos;
+
+                    // Update the number of resources available
+                    // available = available + allocation
+                    for(int i = 0; i < resources; ++i){
+                        available[i] += allocation[j][i];
+                    }
+
+                    done[j] = true;
                 }
             }
-        }
-        ++j;
-        if(j == processes && onePass){
-            onePass = false;
-            j = 0;
         }
     }
     
@@ -92,7 +95,7 @@ int main(int argc, char *argv[]) {
     // The done array stores the index when a process whould be performed
     bool isSafe = true;
     for(int i = 0; i < resources; ++i) {
-        if(done[i] == -1) {
+        if(done[i] == false) {
             isSafe = false;
             break;
         }
@@ -103,15 +106,11 @@ int main(int argc, char *argv[]) {
         // A safe sequence was found, output it.
 
         std::cout << "The following is the safe sequence:" << std::endl;
-        for(int count = 0; count < processes; ++count) {
-            if(count != 0)
+        for(int i = 0; i < processes; ++i) {
+            if(i != 0)
                 std::cout << " -> ";
-            for(int i = 0; i < processes && count < processes; ++i) {
-                if(count == done[i]) {
-                    std::cout << std::string(data["processes"][i]["name"]);
-                    break;
-                }
-            }
+            int temp = ans[i];
+            std::cout << std::string(data["processes"][temp]["name"]);
             
         }
         std::cout << std::endl;

@@ -2,17 +2,17 @@
     "resources": [{
             "name": "a",
             "instances": 10,
-            "avalible": 3
+            "available": 3
         },
         {
             "name": "b",
             "instances": 5,
-            "avalible": 3
+            "available": 3
         },
         {
             "name": "c",
             "instances": 7,
-            "avalible": 0
+            "available": 0
         }
     ],
     "processes": [{
