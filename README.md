@@ -28,6 +28,10 @@ Run one of the following commands based on your use case
 - `make invalid` compile and run the program using `invalid.json` (can NOT output a safe sequence)
 - `make clean` remove object files and deletes executables
 
+## Video Demo
+
+https://user-images.githubusercontent.com/19355415/202058727-4285d13b-7763-49ad-b238-fea1a7d93fc5.mp4
+
 # Sample Input and Output
 ## Input File
 
