@@ -28,6 +28,15 @@ Run one of the following commands based on your use case
 - `make invalid` compile and run the program using `invalid.json` (can NOT output a safe sequence)
 - `make clean` remove object files and deletes executables
 
+## Compile with clang
+
+```
+clang++ main.cpp -o banker-algo
+./banker-algo default.json
+```
+
+`default.json` contains the data provided in the assignment, this file can be repalced with any correctly formatted file of your choosing. If no file name is provided `default.json` will be loaded.
+
 ## Video Demo
 
 https://user-images.githubusercontent.com/19355415/202058727-4285d13b-7763-49ad-b238-fea1a7d93fc5.mp4
